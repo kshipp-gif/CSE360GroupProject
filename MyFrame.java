@@ -164,7 +164,7 @@ public class MyFrame extends JFrame implements ActionListener {
             buttonPanel.setBackground(new Color(0x484848));
             textPanel.setBackground(Color.black);
         }
-        if(darkButton.getText() == "Dark Mode")
+        if(darkButton.getText().equals("Dark Mode"))
             darkButton.setText("Light Mode");
         else
             darkButton.setText("Dark Mode");
