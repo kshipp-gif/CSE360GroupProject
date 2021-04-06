@@ -6,11 +6,15 @@ import java.awt.event.ActionListener;
 
 public class MyFrame extends JFrame implements ActionListener {
 
+    JPanel buttonPanel;
+    JPanel textPanel;
+
     JButton aboutButton;
     JButton loadButton;
     JButton addButton;
     JButton saveButton;
     JButton visualizeButton;
+    JButton darkButton;
 
     MyFrame() {
 
@@ -34,19 +38,20 @@ public class MyFrame extends JFrame implements ActionListener {
         //_______________________________________________________________________________
 
         //left-side panel
-        JPanel buttonPanel = new JPanel();
-        BoxLayout layout0 = new BoxLayout(buttonPanel, BoxLayout.Y_AXIS);
-        buttonPanel.setLayout(layout0);
+        buttonPanel = new JPanel();
+        //BoxLayout layout0 = new BoxLayout(buttonPanel, BoxLayout.Y_AXIS);
+        //buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 1));
+        buttonPanel.setLayout(null); //no layout manager so buttons can be manually placed
         buttonPanel.setBackground(new Color(0xFAFAFA)); //ASU design standard bg color
-        buttonPanel.setBounds(0, 0, 130, 600);
+        buttonPanel.setBounds(0, 0, 142, 600);
         this.add(buttonPanel);
 
         //right-side panel
-        JPanel textPanel = new JPanel();
+        textPanel = new JPanel();
         BoxLayout layout1 = new BoxLayout(textPanel, BoxLayout.X_AXIS);
         textPanel.setLayout(layout1);
         textPanel.setBackground(new Color(0xE8E8E8));
-        textPanel.setBounds(130, 0, 500, 600);
+        textPanel.setBounds(142, 0, 500, 600);
         this.add(textPanel);
         //**************************************************************************************************************
 
@@ -55,53 +60,74 @@ public class MyFrame extends JFrame implements ActionListener {
         //__________________________________________________________
 
         aboutButton = new JButton("About");
-        aboutButton.setMinimumSize(new Dimension(130, 30));
-        aboutButton.setMaximumSize(new Dimension(130, 30));
+        aboutButton.setSize(new Dimension(142, 30));
         //aboutButton.setFocusable(false); //gets rid of highlight box when clicked
         aboutButton.addActionListener(this);
         //aboutButton.addActionListener(e -> lambda expression)
-        aboutButton.setFont(new Font("Arial Regular",Font.BOLD,14));
+        aboutButton.setFont(new Font("Arial Regular",Font.BOLD,16));
         aboutButton.setForeground(Color.white);
         aboutButton.setBackground(new Color(0x8E0C3A));
+        aboutButton.setOpaque(true);
+        aboutButton.setBorder(BorderFactory.createRaisedSoftBevelBorder());
         buttonPanel.add(aboutButton);
 
         loadButton = new JButton("Load Data");
-        loadButton.setMinimumSize(new Dimension(130, 30));
-        loadButton.setMaximumSize(new Dimension(130, 30));
-        loadButton.setFont(new Font("Arial Regular",Font.BOLD,14));
+        loadButton.setBounds(0,30,142,30);
+        loadButton.setFont(new Font("Arial Regular",Font.BOLD,16));
         loadButton.setForeground(Color.white);
         loadButton.setBackground(new Color(0x8E0C3A));
+        loadButton.setOpaque(true);
+        loadButton.setBorder(BorderFactory.createRaisedSoftBevelBorder());
         loadButton.addActionListener(this);
         buttonPanel.add(loadButton);
 
         addButton = new JButton("Add Data");
-        addButton.setMinimumSize(new Dimension(130, 30));
-        addButton.setMaximumSize(new Dimension(130, 30));
-        addButton.setFont(new Font("Arial Regular",Font.BOLD,14));
+        addButton.setBounds(0,60,142,30);
+        addButton.setFont(new Font("Arial Regular",Font.BOLD,16));
         addButton.setForeground(Color.white);
         addButton.setBackground(new Color(0x8E0C3A));
+        addButton.setOpaque(true);
+        addButton.setBorder(BorderFactory.createRaisedSoftBevelBorder());
         addButton.addActionListener(this);
         buttonPanel.add(addButton);
 
         saveButton = new JButton("Save Data");
-        saveButton.setMinimumSize(new Dimension(130, 30));
-        saveButton.setMaximumSize(new Dimension(130, 30));
-        saveButton.setFont(new Font("Arial Regular",Font.BOLD,14));
+        saveButton.setBounds(0,90,142,30);
+        saveButton.setFont(new Font("Arial Regular",Font.BOLD,16));
         saveButton.setForeground(Color.white);
         saveButton.setBackground(new Color(0x8E0C3A));
+        saveButton.setOpaque(true);
+        saveButton.setBorder(BorderFactory.createRaisedSoftBevelBorder());
         saveButton.addActionListener(this);
         buttonPanel.add(saveButton);
 
         visualizeButton = new JButton("Visualize Data");
-        visualizeButton.setFont(new Font("Arial Regular",Font.BOLD,14));
+        visualizeButton.setBounds(0,120,142,30);
+        visualizeButton.setFont(new Font("Arial Regular",Font.BOLD,16));
         visualizeButton.setForeground(Color.black);
         visualizeButton.setBackground(new Color(0xFFC72C));
+        visualizeButton.setOpaque(true);
+        visualizeButton.setBorder(BorderFactory.createRaisedSoftBevelBorder());
         visualizeButton.addActionListener(this);
         buttonPanel.add(visualizeButton);
 
+        /*Dimension min = new Dimension(130, 350);
+        Dimension max = new Dimension(130, 350);
+        Dimension pref = new Dimension(130, 350);
+        buttonPanel.add(new Box.Filler(min, pref, max));*/
+
+        darkButton = new JButton("Dark Mode");
+        darkButton.setBounds(0,531,142,30);
+        darkButton.setFont(new Font("Arial Regular",Font.BOLD,16));
+        darkButton.setForeground(Color.white);
+        darkButton.setBackground(new Color(0x8E0C3A));
+        darkButton.setBorder(BorderFactory.createRaisedSoftBevelBorder());
+        darkButton.addActionListener(this);
+        buttonPanel.add(darkButton);
+
+
 
         this.setVisible(true); //make frame visible
-
     }
 
     @Override
@@ -121,5 +147,27 @@ public class MyFrame extends JFrame implements ActionListener {
         if(e.getSource()==visualizeButton) {
 
         }
+        if(e.getSource()==darkButton) {
+            ChangeColorMode(); //changes to dark or light mode
+            this.repaint();
+
+        }
     }
+
+    public void ChangeColorMode() {
+
+        if (textPanel.getBackground() == Color.black) {
+            buttonPanel.setBackground(new Color(0xFAFAFA));
+            textPanel.setBackground(new Color(0xE8E8E8));
+        }
+        else {
+            buttonPanel.setBackground(new Color(0x484848));
+            textPanel.setBackground(Color.black);
+        }
+        if(darkButton.getText() == "Dark Mode")
+            darkButton.setText("Light Mode");
+        else
+            darkButton.setText("Dark Mode");
+    }
+
 }
