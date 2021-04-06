@@ -8,6 +8,8 @@ public class MyFrame extends JFrame implements ActionListener {
 
     JPanel buttonPanel;
     JPanel textPanel;
+    
+    JLabel aboutLabel;
 
     JButton aboutButton;
     JButton loadButton;
@@ -54,8 +56,20 @@ public class MyFrame extends JFrame implements ActionListener {
         textPanel.setBounds(142, 0, 500, 600);
         this.add(textPanel);
         //**************************************************************************************************************
+        
+        
+        //JLabel = a GUI display area for a string of text, an image, or both
+        //___________________________________________________________________
 
+        aboutLabel = new JLabel("<html>Team #13<br>Fonz Hamilton<br>James Evans" +
+                "<br>James Thomas<br>Karson Shipp</html>");
+        aboutLabel.setBounds(150,0,200,150);
+        aboutLabel.setFont(new Font("Arial Bold",Font.PLAIN,25));
+        aboutLabel.setVisible(false);
+        textPanel.add(aboutLabel);
+        //**************************************************************************************************************
 
+        
         //JButton = a button that performs an action when clicked on
         //__________________________________________________________
 
@@ -134,7 +148,7 @@ public class MyFrame extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==aboutButton) {
-
+            aboutLabel.setVisible(true);
         }
         if(e.getSource()==loadButton) {
 
