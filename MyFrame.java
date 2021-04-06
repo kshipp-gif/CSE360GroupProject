@@ -38,7 +38,7 @@ public class MyFrame extends JFrame implements ActionListener {
         BoxLayout layout0 = new BoxLayout(buttonPanel, BoxLayout.Y_AXIS);
         buttonPanel.setLayout(layout0);
         buttonPanel.setBackground(new Color(0xFAFAFA)); //ASU design standard bg color
-        buttonPanel.setBounds(0, 0, 125, 600);
+        buttonPanel.setBounds(0, 0, 130, 600);
         this.add(buttonPanel);
 
         //right-side panel
@@ -46,7 +46,7 @@ public class MyFrame extends JFrame implements ActionListener {
         BoxLayout layout1 = new BoxLayout(textPanel, BoxLayout.X_AXIS);
         textPanel.setLayout(layout1);
         textPanel.setBackground(new Color(0xE8E8E8));
-        textPanel.setBounds(125, 0, 500, 600);
+        textPanel.setBounds(130, 0, 500, 600);
         this.add(textPanel);
         //**************************************************************************************************************
 
@@ -55,45 +55,45 @@ public class MyFrame extends JFrame implements ActionListener {
         //__________________________________________________________
 
         aboutButton = new JButton("About");
-        aboutButton.setMinimumSize(new Dimension(125, 30));
-        aboutButton.setMaximumSize(new Dimension(125, 30));
+        aboutButton.setMinimumSize(new Dimension(130, 30));
+        aboutButton.setMaximumSize(new Dimension(130, 30));
         //aboutButton.setFocusable(false); //gets rid of highlight box when clicked
         aboutButton.addActionListener(this);
         //aboutButton.addActionListener(e -> lambda expression)
-        aboutButton.setFont(new Font("Arial Regular",Font.PLAIN,14));
+        aboutButton.setFont(new Font("Arial Regular",Font.BOLD,14));
         aboutButton.setForeground(Color.white);
         aboutButton.setBackground(new Color(0x8E0C3A));
         buttonPanel.add(aboutButton);
 
         loadButton = new JButton("Load Data");
-        loadButton.setMinimumSize(new Dimension(125, 30));
-        loadButton.setMaximumSize(new Dimension(125, 30));
-        loadButton.setFont(new Font("Arial Regular",Font.PLAIN,14));
+        loadButton.setMinimumSize(new Dimension(130, 30));
+        loadButton.setMaximumSize(new Dimension(130, 30));
+        loadButton.setFont(new Font("Arial Regular",Font.BOLD,14));
         loadButton.setForeground(Color.white);
         loadButton.setBackground(new Color(0x8E0C3A));
         loadButton.addActionListener(this);
         buttonPanel.add(loadButton);
 
         addButton = new JButton("Add Data");
-        addButton.setMinimumSize(new Dimension(125, 30));
-        addButton.setMaximumSize(new Dimension(125, 30));
-        addButton.setFont(new Font("Arial Regular",Font.PLAIN,14));
+        addButton.setMinimumSize(new Dimension(130, 30));
+        addButton.setMaximumSize(new Dimension(130, 30));
+        addButton.setFont(new Font("Arial Regular",Font.BOLD,14));
         addButton.setForeground(Color.white);
         addButton.setBackground(new Color(0x8E0C3A));
         addButton.addActionListener(this);
         buttonPanel.add(addButton);
 
         saveButton = new JButton("Save Data");
-        saveButton.setMinimumSize(new Dimension(125, 30));
-        saveButton.setMaximumSize(new Dimension(125, 30));
-        saveButton.setFont(new Font("Arial Regular",Font.PLAIN,14));
+        saveButton.setMinimumSize(new Dimension(130, 30));
+        saveButton.setMaximumSize(new Dimension(130, 30));
+        saveButton.setFont(new Font("Arial Regular",Font.BOLD,14));
         saveButton.setForeground(Color.white);
         saveButton.setBackground(new Color(0x8E0C3A));
         saveButton.addActionListener(this);
         buttonPanel.add(saveButton);
 
         visualizeButton = new JButton("Visualize Data");
-        visualizeButton.setFont(new Font("Arial Regular",Font.PLAIN,14));
+        visualizeButton.setFont(new Font("Arial Regular",Font.BOLD,14));
         visualizeButton.setForeground(Color.black);
         visualizeButton.setBackground(new Color(0xFFC72C));
         visualizeButton.addActionListener(this);
