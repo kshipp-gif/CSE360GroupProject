@@ -1,0 +1,4 @@
+Application
+  - Add scrollbars
+  - Add window resizing capability
+  - Implement each button
