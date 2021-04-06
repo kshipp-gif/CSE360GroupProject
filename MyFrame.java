@@ -121,6 +121,7 @@ public class MyFrame extends JFrame implements ActionListener {
         darkButton.setFont(new Font("Arial Regular",Font.BOLD,16));
         darkButton.setForeground(Color.white);
         darkButton.setBackground(new Color(0x8E0C3A));
+        darkButton.setOpaque(true);
         darkButton.setBorder(BorderFactory.createRaisedSoftBevelBorder());
         darkButton.addActionListener(this);
         buttonPanel.add(darkButton);
