@@ -8,7 +8,7 @@ public class MyFrame extends JFrame implements ActionListener {
 
     JPanel buttonPanel;
     JPanel textPanel;
-    
+
     JLabel aboutLabel;
 
     JButton aboutButton;
@@ -46,30 +46,30 @@ public class MyFrame extends JFrame implements ActionListener {
         buttonPanel.setLayout(null); //no layout manager so buttons can be manually placed
         buttonPanel.setBackground(new Color(0xFAFAFA)); //ASU design standard bg color
         buttonPanel.setBounds(0, 0, 142, 600);
-        this.add(buttonPanel);
+        this.getContentPane().add(buttonPanel);
 
         //right-side panel
         textPanel = new JPanel();
-        BoxLayout layout1 = new BoxLayout(textPanel, BoxLayout.X_AXIS);
-        textPanel.setLayout(layout1);
+        //BoxLayout layout1 = new BoxLayout(textPanel, BoxLayout.X_AXIS);
+        textPanel.setLayout(null);
         textPanel.setBackground(new Color(0xE8E8E8));
         textPanel.setBounds(142, 0, 500, 600);
-        this.add(textPanel);
+        this.getContentPane().add(textPanel);
         //**************************************************************************************************************
-        
-        
+
+
         //JLabel = a GUI display area for a string of text, an image, or both
         //___________________________________________________________________
 
         aboutLabel = new JLabel("<html>Team #13<br>Fonz Hamilton<br>James Evans" +
                 "<br>James Thomas<br>Karson Shipp</html>");
         aboutLabel.setBounds(150,0,200,150);
-        aboutLabel.setFont(new Font("Arial Bold",Font.PLAIN,25));
+        aboutLabel.setFont(new Font("Arial Regular",Font.BOLD,20));
+        aboutLabel.setForeground(Color.black);
         aboutLabel.setVisible(false);
         textPanel.add(aboutLabel);
-        //**************************************************************************************************************
 
-        
+
         //JButton = a button that performs an action when clicked on
         //__________________________________________________________
 
@@ -135,8 +135,8 @@ public class MyFrame extends JFrame implements ActionListener {
         darkButton.setFont(new Font("Arial Regular",Font.BOLD,16));
         darkButton.setForeground(Color.white);
         darkButton.setBackground(new Color(0x8E0C3A));
-        darkButton.setOpaque(true);
         darkButton.setBorder(BorderFactory.createRaisedSoftBevelBorder());
+        darkButton.setOpaque(true);
         darkButton.addActionListener(this);
         buttonPanel.add(darkButton);
 
@@ -148,6 +148,7 @@ public class MyFrame extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==aboutButton) {
+            //JOptionPane.showMessageDialog(this.getComponent(0), "Team # 13");
             aboutLabel.setVisible(true);
         }
         if(e.getSource()==loadButton) {
@@ -164,12 +165,15 @@ public class MyFrame extends JFrame implements ActionListener {
         }
         if(e.getSource()==darkButton) {
             ChangeColorMode(); //changes to dark or light mode
-            this.repaint();
-
+            if (aboutLabel.isVisible() && textPanel.getBackground() == Color.black)
+                aboutLabel.setForeground(Color.white);
+            else if (aboutLabel.isVisible() && textPanel.getBackground() != Color.black)
+                    aboutLabel.setForeground(Color.black);
+            this.repaint(); //repaints the frame to update colors
         }
     }
 
-    public void ChangeColorMode() {
+    private void ChangeColorMode() {
 
         if (textPanel.getBackground() == Color.black) {
             buttonPanel.setBackground(new Color(0xFAFAFA));
