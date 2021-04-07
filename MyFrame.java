@@ -6,10 +6,14 @@ import java.awt.event.ActionListener;
 
 public class MyFrame extends JFrame implements ActionListener {
 
-    JPanel buttonPanel;
-    JPanel textPanel;
+    JPanel buttonPanel;             // left panel with buttons
+    JPanel textPanel;               // right panel that displays data stuff
 
     JLabel aboutLabel;
+    JLabel loadLabel;
+    JLabel addLabel;
+    JLabel saveLabel;
+    JLabel visualLabel;
 
     JButton aboutButton;
     JButton loadButton;
@@ -23,14 +27,14 @@ public class MyFrame extends JFrame implements ActionListener {
         //JFrame =  a GUI window to add components to
         //___________________________________________
 
-        setDefaultLookAndFeelDecorated(true);
+        setDefaultLookAndFeelDecorated(true);       // sets the look and feel to local OS
         this.setTitle("COVID Vaccines");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //exit out of app
         this.setResizable(false); //prevent frame from being resized
         this.setLayout(new BorderLayout());
         this.setSize(600, 600); //sets x and y dimensions of frame
 
-        ImageIcon image = new ImageIcon("logo.png"); //create an image icon
+        ImageIcon image = new ImageIcon("logo.png"); //create an image icon for taskbar and app window
         this.setIconImage(image.getImage()); //change icon of frame
         this.getContentPane().setBackground(new Color(0xE8E8E8)); //ASU design standard bg color
         //**************************************************************************************************************
@@ -61,6 +65,7 @@ public class MyFrame extends JFrame implements ActionListener {
         //JLabel = a GUI display area for a string of text, an image, or both
         //___________________________________________________________________
 
+        //**** about section ****
         aboutLabel = new JLabel("<html>Team #13<br>Fonz Hamilton<br>James Evans" +
                 "<br>James Thomas<br>Karson Shipp</html>");
         aboutLabel.setBounds(150,0,200,150);
@@ -69,6 +74,49 @@ public class MyFrame extends JFrame implements ActionListener {
         aboutLabel.setVisible(false);
         textPanel.add(aboutLabel);
 
+        /**
+         * TODO make load functional
+         */
+        //**** load label ****
+        loadLabel = new JLabel("<html>This is a placeholder for load</html>");
+        loadLabel.setBounds(150, 0, 200, 150);
+        loadLabel.setFont(new Font("Arial Regular", Font.BOLD, 20));
+        loadLabel.setForeground(Color.black);
+        loadLabel.setVisible(false);
+        textPanel.add(loadLabel);
+
+        /**
+         * TODO make Add functional
+         */
+        // **** Add label ****
+        addLabel = new JLabel("<html>This is a placeholder for add</html>");
+        addLabel.setBounds(150, 0, 200, 150);
+        addLabel.setFont(new Font("Arial Regular", Font.BOLD, 20));
+        addLabel.setForeground(Color.black);
+        addLabel.setVisible(false);
+        textPanel.add(addLabel);
+
+        /**
+         * TODO make Save functional
+         */
+        //**** Save Label ****
+        saveLabel = new JLabel("<html>This is a placeholder for save</html>");
+        saveLabel.setBounds(150, 0, 200, 150);
+        saveLabel.setFont(new Font("Arial Regular", Font.BOLD, 20));
+        saveLabel.setForeground(Color.black);
+        saveLabel.setVisible(false);
+        textPanel.add(saveLabel);
+
+        /**
+         *  TODO make Visualize functional
+         */
+        //**** Visual Label ****
+        visualLabel = new JLabel("<html>This is a placeholder for Visualize</html>");
+        visualLabel.setBounds(150, 0, 200, 150);
+        visualLabel.setFont(new Font("Arial Regular", Font.BOLD, 20));
+        visualLabel.setForeground(Color.black);
+        visualLabel.setVisible(false);
+        textPanel.add(visualLabel);
 
         //JButton = a button that performs an action when clicked on
         //__________________________________________________________
@@ -142,51 +190,84 @@ public class MyFrame extends JFrame implements ActionListener {
 
 
 
-        this.setVisible(true); //make frame visible
+        setVisible(true); //make frame visible
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==aboutButton) {
-            //JOptionPane.showMessageDialog(this.getComponent(0), "Team # 13");
+            resetVisibility();
             aboutLabel.setVisible(true);
         }
         if(e.getSource()==loadButton) {
+            resetVisibility();
+            loadLabel.setVisible(true);
 
         }
         if(e.getSource()==addButton) {
+            resetVisibility();
+            addLabel.setVisible(true);
 
         }
         if(e.getSource()==saveButton) {
+            resetVisibility();
+            saveLabel.setVisible(true);
 
         }
         if(e.getSource()==visualizeButton) {
+            resetVisibility();
+            visualLabel.setVisible(true);
 
         }
         if(e.getSource()==darkButton) {
             ChangeColorMode(); //changes to dark or light mode
-            if (aboutLabel.isVisible() && textPanel.getBackground() == Color.black)
-                aboutLabel.setForeground(Color.white);
-            else if (aboutLabel.isVisible() && textPanel.getBackground() != Color.black)
-                    aboutLabel.setForeground(Color.black);
-            this.repaint(); //repaints the frame to update colors
         }
     }
 
+    /**
+     * Method to change the frame coloring from light mode to dark mode
+     * Takes no input
+     */
     private void ChangeColorMode() {
 
-        if (textPanel.getBackground() == Color.black) {
-            buttonPanel.setBackground(new Color(0xFAFAFA));
-            textPanel.setBackground(new Color(0xE8E8E8));
+        if (textPanel.getBackground().equals(Color.black)) {// if dark grey
+            buttonPanel.setBackground(new Color(0xFAFAFA));         // set button panel to white-ish
+            textPanel.setBackground(new Color(0xE8E8E8));           // set data panel to white-ish-ish
+            aboutLabel.setForeground(Color.black);                      // set aboutLabel font to black
+            loadLabel.setForeground(Color.black);                       // set loadLabel font to black
+            addLabel.setForeground(Color.black);                        // set addLabel font to black
+            saveLabel.setForeground(Color.black);                       // set saveLabel font to black
+            visualLabel.setForeground(Color.black);                     // set visualLabel font to black
         }
+
         else {
-            buttonPanel.setBackground(new Color(0x484848));
-            textPanel.setBackground(Color.black);
+            buttonPanel.setBackground(new Color(0x484848)); // else set button panel to light grey
+            textPanel.setBackground(Color.black);               //  set data panel to dark grey
+            aboutLabel.setForeground(Color.white);              // set aboutLabel font to white
+            loadLabel.setForeground(Color.white);               // set the loadLabel font to white
+            addLabel.setForeground(Color.white);                // set the addLabel font to white
+            saveLabel.setForeground(Color.white);               // set visual label font to white
+            visualLabel.setForeground(Color.white);             // set visualLabel font to white
+
         }
+        // changes the text on the button itself
         if(darkButton.getText().equals("Dark Mode"))
             darkButton.setText("Light Mode");
         else
             darkButton.setText("Dark Mode");
+
+        repaint();      // repaints the frame to update colors
+
     }
 
+    /**
+     * Method to set all labels to false. Call this method before setting a label to true
+     */
+    private void resetVisibility() {
+        aboutLabel.setVisible(false);
+        loadLabel.setVisible(false);
+        addLabel.setVisible(false);
+        saveLabel.setVisible(false);
+        visualLabel.setVisible(false);
+    }
 }
