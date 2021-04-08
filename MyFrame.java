@@ -123,7 +123,7 @@ public class MyFrame extends JFrame implements ActionListener {
 
         aboutButton = new JButton("About");
         aboutButton.setSize(new Dimension(142, 30));
-        //aboutButton.setFocusable(false); //gets rid of highlight box when clicked
+        aboutButton.setFocusable(false); //gets rid of highlight box when clicked
         aboutButton.addActionListener(this);
         //aboutButton.addActionListener(e -> lambda expression)
         aboutButton.setFont(new Font("Arial Regular",Font.BOLD,16));
@@ -135,6 +135,7 @@ public class MyFrame extends JFrame implements ActionListener {
 
         loadButton = new JButton("Load Data");
         loadButton.setBounds(0,30,142,30);
+        loadButton.setFocusable(false);
         loadButton.setFont(new Font("Arial Regular",Font.BOLD,16));
         loadButton.setForeground(Color.white);
         loadButton.setBackground(new Color(0x8E0C3A));
@@ -145,6 +146,7 @@ public class MyFrame extends JFrame implements ActionListener {
 
         addButton = new JButton("Add Data");
         addButton.setBounds(0,60,142,30);
+        addButton.setFocusable(false);
         addButton.setFont(new Font("Arial Regular",Font.BOLD,16));
         addButton.setForeground(Color.white);
         addButton.setBackground(new Color(0x8E0C3A));
@@ -155,6 +157,7 @@ public class MyFrame extends JFrame implements ActionListener {
 
         saveButton = new JButton("Save Data");
         saveButton.setBounds(0,90,142,30);
+        saveButton.setFocusable(false);
         saveButton.setFont(new Font("Arial Regular",Font.BOLD,16));
         saveButton.setForeground(Color.white);
         saveButton.setBackground(new Color(0x8E0C3A));
@@ -165,6 +168,7 @@ public class MyFrame extends JFrame implements ActionListener {
 
         visualizeButton = new JButton("Visualize Data");
         visualizeButton.setBounds(0,120,142,30);
+        visualizeButton.setFocusable(false);
         visualizeButton.setFont(new Font("Arial Regular",Font.BOLD,16));
         visualizeButton.setForeground(Color.black);
         visualizeButton.setBackground(new Color(0xFFC72C));
@@ -180,6 +184,7 @@ public class MyFrame extends JFrame implements ActionListener {
 
         darkButton = new JButton("Dark Mode");
         darkButton.setBounds(0,531,142,30);
+        darkButton.setFocusable(false);
         darkButton.setFont(new Font("Arial Regular",Font.BOLD,16));
         darkButton.setForeground(Color.white);
         darkButton.setBackground(new Color(0x8E0C3A));
