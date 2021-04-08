@@ -6,21 +6,21 @@ import java.awt.event.ActionListener;
 
 public class MyFrame extends JFrame implements ActionListener {
 
-    JPanel buttonPanel;             // left panel with buttons
-    JPanel textPanel;               // right panel that displays data stuff
+    private JPanel buttonPanel;             // left panel with buttons
+    private JPanel textPanel;               // right panel that displays data stuff
 
-    JLabel aboutLabel;
-    JLabel loadLabel;
-    JLabel addLabel;
-    JLabel saveLabel;
-    JLabel visualLabel;
+    private JLabel aboutLabel;
+    private JLabel loadLabel;
+    private JLabel addLabel;
+    private JLabel saveLabel;
+    private JLabel visualLabel;
 
-    JButton aboutButton;
-    JButton loadButton;
-    JButton addButton;
-    JButton saveButton;
-    JButton visualizeButton;
-    JButton darkButton;
+    private JButton aboutButton;
+    private JButton loadButton;
+    private JButton addButton;
+    private JButton saveButton;
+    private JButton visualizeButton;
+    private JButton darkButton;
 
     MyFrame() {
 
