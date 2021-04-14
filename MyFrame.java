@@ -7,7 +7,7 @@ import java.io.File;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.util.Scanner;
 import java.io.*;
-import java.swing.JTable;
+import javax.swing.JTable;
 
 
 public class MyFrame extends JFrame implements ActionListener {
