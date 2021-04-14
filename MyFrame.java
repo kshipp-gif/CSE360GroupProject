@@ -5,28 +5,38 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import javax.swing.plaf.basic.BasicScrollBarUI;
+import java.util.Scanner;
+import java.io.*;
+import java.swing.JTable;
 
 
 public class MyFrame extends JFrame implements ActionListener {
 
-    JPanel buttonPanel;             // left panel with buttons
-    JPanel textPanel;               // right panel that displays data stuff
+    private int ID, rows;
+    private String lastName, firstName, vaccineType, vaccinationDate, vaccineLocation;
+    
+    private JPanel buttonPanel;             // left panel with buttons
+    private JPanel textPanel;               // right panel that displays data stuff
 
-    JLabel aboutLabel;
-    JLabel loadLabel;
-    JLabel addLabel;
-    JLabel saveLabel;
-    JLabel visualLabel;
+    private JLabel aboutLabel;
+    private JLabel loadLabel;
+    private JLabel addLabel;
+    private JLabel saveLabel;
+    private JLabel visualLabel;
 
-    JButton aboutButton;
-    JButton loadButton;
-    JButton addButton;
-    JButton saveButton;
-    JButton visualizeButton;
-    JButton darkButton;
+    private JButton aboutButton;
+    private JButton loadButton;
+    private JButton addButton;
+    private JButton saveButton;
+    private JButton visualizeButton;
+    private JButton darkButton;
+    
+    private Scanner scnr;
+    private Iterator blah = new Iterator();
+    private Object[][] data;
 
-    JFileChooser fc;                // handles the file chooser dialog box
-    JScrollPane scrollPane;          // handles the scroll bars
+    private JFileChooser fc;                // handles the file chooser dialog box
+    private JScrollPane scrollPane;          // handles the scroll bars
     //ScrollPane scrollPane;
 
 
@@ -252,8 +262,59 @@ public class MyFrame extends JFrame implements ActionListener {
                 File file = fc.getSelectedFile();
                 loadLabel.setText("Opening: " + file.getName());
                 loadLabel.setVisible(true);
-            }
+                
+                String line = "";
+                String delim = ","; // delimiter to parse csv files
+                int count = 0;
+                rows = 0;
 
+                try {
+                    Scanner scnr = new Scanner(file);
+                    while(scnr.hasNextLine()) {
+                        scnr.nextLine();
+                        rows++;
+                    }
+                    scnr.close();
+                } catch (FileNotFoundException fileNotFoundException) {
+                    fileNotFoundException.printStackTrace();
+                }
+
+                data = new Object[rows-1][6];
+                try {
+                    BufferedReader br = new BufferedReader(new FileReader(file));
+                    while ((line = br.readLine()) != null) {    // while there is a line to read (i.e., not EOF)
+                        if (count > 0) {                        // count is just to skip the first line holding irrelevant data
+                            String[] arr = line.split(delim);   // fills arr with the delimited strings from the each line
+                            data[count - 1] = arr;              // fills the 2d data array for the JTable below
+                            ID = Integer.parseInt(arr[0]);      // convert ID string to int
+                            lastName = arr[1];
+                            firstName = arr[2];
+                            vaccineType = arr[3];
+                            vaccinationDate = arr[4];
+                            vaccineLocation = arr[5];
+                            blah.addNewPatient(ID, lastName, firstName, vaccineType, vaccinationDate, vaccineLocation);
+                        }
+                        count++;
+                    }
+                } catch (IOException ioe) {
+                    ioe.printStackTrace();
+                }
+                String[] columnNames = {
+                        "ID",
+                        "Last Name",
+                        "First Name",
+                        "Vaccine Type",
+                        "Vaccination Date",
+                        "Vaccine Location"  };
+
+                JTable table = new JTable(data, columnNames);
+                table.setVisible(true);
+                table.setPreferredScrollableViewportSize(new Dimension(100,50));
+                table.setFillsViewportHeight(true);
+                JScrollPane scrollPane1 = new JScrollPane(table);
+                scrollPane1.setBounds(142, 0, 500, 600);
+                textPanel.add(scrollPane1);
+            }
         }
         else if(e.getSource()==addButton) {
             resetVisibility();
