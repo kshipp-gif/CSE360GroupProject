@@ -11,10 +11,12 @@ public class FileIOtest {
 
     public FileIOtest(File file) {
         this.file = file;
-        int count = 0;
-        int k = -1;
-        int rows = 0;
+        int count = 0;          // used to skip the first line of the file
+        int k = -1;             // used for the ArrayList. Set to -1 because it is paired with count and needs
+                                // to get to 0
+        int rows = 0;           // how many rows the file contains
 
+        // this counts how many rows are in the file
         try {
             Scanner scnr = new Scanner(file);
             while(scnr.hasNextLine()) {
@@ -25,23 +27,23 @@ public class FileIOtest {
         } catch (FileNotFoundException fileNotFoundException) {
             fileNotFoundException.printStackTrace();
         }
-
+        // this loop creates the ArrayList
         for (int i = 0; i < rows - 1; i++) {
             Patient newPatient = new Patient();
             patientArray.add(newPatient);
         }
 
-
+        // this is the section the splits up the file
         try  {
             BufferedReader in = new BufferedReader(new FileReader(file));
             String line = "";
             String delim = ",";
 
-            while((line = in.readLine()) != null) {
-                System.out.println(count);
-                    if (count > 0 && k < (rows - 1)) {
-                        String[] tokens = line.split(delim);
-
+            while((line = in.readLine()) != null) {     // while not end of file
+                    if (count > 0 && k < (rows - 1)) {  // skips the first row in file and one less rows since start at 0
+                        String[] tokens = line.split(delim);    // splits the string into tokens
+                        
+                        // fill in the array
                         patientArray.get(k).setID(Integer.parseInt(tokens[0]));
                         patientArray.get(k).setLastName(tokens[1]);
                         patientArray.get(k).setFirstName(tokens[2]);
@@ -50,7 +52,7 @@ public class FileIOtest {
                         patientArray.get(k).setVaccineLocation(tokens[5]);
                     }
                     count++;
-                    k++;
+                    k++;        // counter for ArrayList
             }
         }
 
@@ -58,8 +60,8 @@ public class FileIOtest {
             System.out.println("File read error");
         }
     }
+    // method returns the array
     public ArrayList<Patient> getArray() {
         return patientArray;
     }
 }
-
