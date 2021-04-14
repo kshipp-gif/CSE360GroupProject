@@ -3,26 +3,38 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import javax.swing.plaf.basic.BasicScrollBarUI;
+
 
 public class MyFrame extends JFrame implements ActionListener {
 
-    private JPanel buttonPanel;             // left panel with buttons
-    private JPanel textPanel;               // right panel that displays data stuff
+    JPanel buttonPanel;             // left panel with buttons
+    JPanel textPanel;               // right panel that displays data stuff
 
-    private JLabel aboutLabel;
-    private JLabel loadLabel;
-    private JLabel addLabel;
-    private JLabel saveLabel;
-    private JLabel visualLabel;
+    JLabel aboutLabel;
+    JLabel loadLabel;
+    JLabel addLabel;
+    JLabel saveLabel;
+    JLabel visualLabel;
 
-    private JButton aboutButton;
-    private JButton loadButton;
-    private JButton addButton;
-    private JButton saveButton;
-    private JButton visualizeButton;
-    private JButton darkButton;
+    JButton aboutButton;
+    JButton loadButton;
+    JButton addButton;
+    JButton saveButton;
+    JButton visualizeButton;
+    JButton darkButton;
+
+    JFileChooser fc;                // handles the file chooser dialog box
+    JScrollPane scrollPane;          // handles the scroll bars
+    //ScrollPane scrollPane;
+
 
     MyFrame() {
+
+        fc = new JFileChooser();
+        fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+
 
         //JFrame =  a GUI window to add components to
         //___________________________________________
@@ -31,8 +43,9 @@ public class MyFrame extends JFrame implements ActionListener {
         this.setTitle("COVID Vaccines");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //exit out of app
         this.setResizable(false); //prevent frame from being resized
-        this.setLayout(new BorderLayout());
+        this.setLayout(null);
         this.setSize(600, 600); //sets x and y dimensions of frame
+
 
         ImageIcon image = new ImageIcon("logo.png"); //create an image icon for taskbar and app window
         this.setIconImage(image.getImage()); //change icon of frame
@@ -43,7 +56,7 @@ public class MyFrame extends JFrame implements ActionListener {
         //JPanel = a GUI component that functions as a container to hold other components
         //_______________________________________________________________________________
 
-        //left-side panel
+        //left-side button panel
         buttonPanel = new JPanel();
         //BoxLayout layout0 = new BoxLayout(buttonPanel, BoxLayout.Y_AXIS);
         //buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 1));
@@ -55,10 +68,12 @@ public class MyFrame extends JFrame implements ActionListener {
         //right-side panel
         textPanel = new JPanel();
         //BoxLayout layout1 = new BoxLayout(textPanel, BoxLayout.X_AXIS);
+        //textPanel.setLayout(new BorderLayout());
         textPanel.setLayout(null);
         textPanel.setBackground(new Color(0xE8E8E8));
         textPanel.setBounds(142, 0, 500, 600);
         this.getContentPane().add(textPanel);
+        //textPanel.add(scrollPane);
         //**************************************************************************************************************
 
 
@@ -71,6 +86,8 @@ public class MyFrame extends JFrame implements ActionListener {
         aboutLabel.setBounds(150,0,200,150);
         aboutLabel.setFont(new Font("Arial Regular",Font.BOLD,20));
         aboutLabel.setForeground(Color.black);
+        aboutLabel.setHorizontalAlignment(2);        // sets the text horizontal alignment. 2 = LEFT
+        aboutLabel.setVerticalAlignment(1);          // sets the text vertical alignment. 1 = TOP
         aboutLabel.setVisible(false);
         textPanel.add(aboutLabel);
 
@@ -78,10 +95,13 @@ public class MyFrame extends JFrame implements ActionListener {
          * TODO make load functional
          */
         //**** load label ****
-        loadLabel = new JLabel("<html>This is a placeholder for load</html>");
-        loadLabel.setBounds(150, 0, 200, 150);
+        //loadLabel = new JLabel("<html>This is a placeholder for load</html>");
+        loadLabel = new JLabel();
+        loadLabel.setBounds(150, 0, 500, 150);
         loadLabel.setFont(new Font("Arial Regular", Font.BOLD, 20));
         loadLabel.setForeground(Color.black);
+        loadLabel.setHorizontalAlignment(2);        // sets the horizontal text alignment. 2 = LEFT
+        loadLabel.setVerticalAlignment(1);          // sets the vertical text alignment. 1 = TOP
         loadLabel.setVisible(false);
         textPanel.add(loadLabel);
 
@@ -89,10 +109,13 @@ public class MyFrame extends JFrame implements ActionListener {
          * TODO make Add functional
          */
         // **** Add label ****
-        addLabel = new JLabel("<html>This is a placeholder for add</html>");
-        addLabel.setBounds(150, 0, 200, 150);
+        // ***** the 'f' are for testing scroll *** Delete later ******
+        addLabel = new JLabel("<html>This is a placeholder for addfff fffffffffffffffffff ffffffffffffffffffffffffff fffffffffffffffffffffffffffffff f</html>");
+        addLabel.setBounds(150, 0, 700, 150);
         addLabel.setFont(new Font("Arial Regular", Font.BOLD, 20));
         addLabel.setForeground(Color.black);
+        addLabel.setHorizontalAlignment(2);        // sets the horizontal text alignment. 2 = LEFT
+        addLabel.setVerticalAlignment(1);          // sets the vertical text alignment. 1 = TOP
         addLabel.setVisible(false);
         textPanel.add(addLabel);
 
@@ -101,9 +124,11 @@ public class MyFrame extends JFrame implements ActionListener {
          */
         //**** Save Label ****
         saveLabel = new JLabel("<html>This is a placeholder for save</html>");
-        saveLabel.setBounds(150, 0, 200, 150);
+        saveLabel.setBounds(150, 0, 600, 150);
         saveLabel.setFont(new Font("Arial Regular", Font.BOLD, 20));
         saveLabel.setForeground(Color.black);
+        saveLabel.setHorizontalAlignment(2);        // sets the horizontal text alignment. 2 = LEFT
+        saveLabel.setVerticalAlignment(1);          // sets the vertical text alignment. 1 = TOP
         saveLabel.setVisible(false);
         textPanel.add(saveLabel);
 
@@ -113,10 +138,25 @@ public class MyFrame extends JFrame implements ActionListener {
         //**** Visual Label ****
         visualLabel = new JLabel("<html>This is a placeholder for Visualize</html>");
         visualLabel.setBounds(150, 0, 200, 150);
+        visualLabel.setHorizontalAlignment(2);      // sets the horizontal text alignment. 2 = LEFT
+        visualLabel.setVerticalAlignment(1);        // sets the vertical text alignment. 1 = TOP
         visualLabel.setFont(new Font("Arial Regular", Font.BOLD, 20));
         visualLabel.setForeground(Color.black);
         visualLabel.setVisible(false);
         textPanel.add(visualLabel);
+
+        //**** ScrollPane *****************************************************************************
+        scrollPane = new JScrollPane(textPanel);
+
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setBounds(142, 0, 452, 561);
+
+        scrollPane.getViewport().setBackground(new Color(0xE8E8E8));
+
+        scrollPane.setVisible(true);
+        //add(scrollPane, BorderLayout.PAGE_START);
+        add(scrollPane);
 
         //JButton = a button that performs an action when clicked on
         //__________________________________________________________
@@ -135,7 +175,6 @@ public class MyFrame extends JFrame implements ActionListener {
 
         loadButton = new JButton("Load Data");
         loadButton.setBounds(0,30,142,30);
-        loadButton.setFocusable(false);
         loadButton.setFont(new Font("Arial Regular",Font.BOLD,16));
         loadButton.setForeground(Color.white);
         loadButton.setBackground(new Color(0x8E0C3A));
@@ -146,7 +185,6 @@ public class MyFrame extends JFrame implements ActionListener {
 
         addButton = new JButton("Add Data");
         addButton.setBounds(0,60,142,30);
-        addButton.setFocusable(false);
         addButton.setFont(new Font("Arial Regular",Font.BOLD,16));
         addButton.setForeground(Color.white);
         addButton.setBackground(new Color(0x8E0C3A));
@@ -157,7 +195,6 @@ public class MyFrame extends JFrame implements ActionListener {
 
         saveButton = new JButton("Save Data");
         saveButton.setBounds(0,90,142,30);
-        saveButton.setFocusable(false);
         saveButton.setFont(new Font("Arial Regular",Font.BOLD,16));
         saveButton.setForeground(Color.white);
         saveButton.setBackground(new Color(0x8E0C3A));
@@ -168,7 +205,6 @@ public class MyFrame extends JFrame implements ActionListener {
 
         visualizeButton = new JButton("Visualize Data");
         visualizeButton.setBounds(0,120,142,30);
-        visualizeButton.setFocusable(false);
         visualizeButton.setFont(new Font("Arial Regular",Font.BOLD,16));
         visualizeButton.setForeground(Color.black);
         visualizeButton.setBackground(new Color(0xFFC72C));
@@ -184,7 +220,6 @@ public class MyFrame extends JFrame implements ActionListener {
 
         darkButton = new JButton("Dark Mode");
         darkButton.setBounds(0,531,142,30);
-        darkButton.setFocusable(false);
         darkButton.setFont(new Font("Arial Regular",Font.BOLD,16));
         darkButton.setForeground(Color.white);
         darkButton.setBackground(new Color(0x8E0C3A));
@@ -194,37 +229,58 @@ public class MyFrame extends JFrame implements ActionListener {
         buttonPanel.add(darkButton);
 
 
-
         setVisible(true); //make frame visible
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==aboutButton) {
-            resetVisibility();
-            aboutLabel.setVisible(true);
+            resetVisibility();                          // reset visibility 
+            scrollPane.setViewportView(aboutLabel);     // set the viewport for the scrollpane to addLabel
+
+            //scrollPane.setPreferredSize(new Dimension(150,0));
+            scrollPane.setVisible(true);                // make the scrollPane visible
+            aboutLabel.setVisible(true);                // make the label visible
         }
-        if(e.getSource()==loadButton) {
-            resetVisibility();
-            loadLabel.setVisible(true);
+        else if(e.getSource()==loadButton) {
+
+            int returnVal = fc.showOpenDialog(MyFrame.this);        // opens dialog box for opening file
+            
+            // if function for choosing file
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                resetVisibility();
+                File file = fc.getSelectedFile();
+                loadLabel.setText("Opening: " + file.getName());
+                loadLabel.setVisible(true);
+            }
 
         }
-        if(e.getSource()==addButton) {
+        else if(e.getSource()==addButton) {
             resetVisibility();
+            scrollPane.setViewportView(addLabel);
+            scrollPane.setVisible(true);
             addLabel.setVisible(true);
 
         }
-        if(e.getSource()==saveButton) {
-            resetVisibility();
-            saveLabel.setVisible(true);
+        else if(e.getSource()==saveButton) {
+            int returnVal = fc.showSaveDialog(MyFrame.this);        // opens dialog box for saving
+            // if statement for saving file
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                resetVisibility();
+                File file = fc.getSelectedFile();
+                saveLabel.setText("Saving: " + file.getName());
+                saveLabel.setVisible(true);
+            }
 
         }
-        if(e.getSource()==visualizeButton) {
+        else if(e.getSource()==visualizeButton) {
             resetVisibility();
+            scrollPane.setViewportView(visualLabel);
+            scrollPane.setVisible(true);
             visualLabel.setVisible(true);
 
         }
-        if(e.getSource()==darkButton) {
+        else if(e.getSource()==darkButton) {
             ChangeColorMode(); //changes to dark or light mode
         }
     }
@@ -243,6 +299,8 @@ public class MyFrame extends JFrame implements ActionListener {
             addLabel.setForeground(Color.black);                        // set addLabel font to black
             saveLabel.setForeground(Color.black);                       // set saveLabel font to black
             visualLabel.setForeground(Color.black);                     // set visualLabel font to black
+            scrollPane.getViewport().setBackground(new Color(0xE8E8E8));
+
         }
 
         else {
@@ -253,6 +311,9 @@ public class MyFrame extends JFrame implements ActionListener {
             addLabel.setForeground(Color.white);                // set the addLabel font to white
             saveLabel.setForeground(Color.white);               // set visual label font to white
             visualLabel.setForeground(Color.white);             // set visualLabel font to white
+            scrollPane.getViewport().setBackground(Color.black);
+            scrollPane.getHorizontalScrollBar().setBackground(new Color(0x484848));
+
 
         }
         // changes the text on the button itself
@@ -266,7 +327,7 @@ public class MyFrame extends JFrame implements ActionListener {
     }
 
     /**
-     * Method to set all labels to false. Call this method before setting a label to true
+     * Method to set all labels to false. Also sets resets scrollPane. Call this method before setting a label to true
      */
     private void resetVisibility() {
         aboutLabel.setVisible(false);
@@ -274,5 +335,8 @@ public class MyFrame extends JFrame implements ActionListener {
         addLabel.setVisible(false);
         saveLabel.setVisible(false);
         visualLabel.setVisible(false);
+
+        scrollPane.setVisible(false);
     }
+
 }
