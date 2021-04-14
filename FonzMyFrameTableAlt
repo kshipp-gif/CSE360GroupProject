@@ -11,26 +11,31 @@ import javax.swing.table.DefaultTableModel;
 
 public class MyFrame extends JFrame implements ActionListener {
 
-    JPanel buttonPanel;             // left panel with buttons
-    JPanel textPanel;               // right panel that displays data stuff
+    private JPanel buttonPanel;             // left panel with buttons
+    private JPanel textPanel;               // right panel that displays data stuff
 
-    JLabel aboutLabel;
-    JLabel loadLabel;
-    JLabel addLabel;
-    JLabel saveLabel;
-    JLabel visualLabel;
+    private JLabel aboutLabel;
+    private JLabel loadLabel;
+    private JLabel addLabel;
+    private JLabel saveLabel;
+    private JLabel visualLabel;
 
-    JButton aboutButton;
-    JButton loadButton;
-    JButton addButton;
-    JButton saveButton;
-    JButton visualizeButton;
-    JButton darkButton;
+    private JButton aboutButton;
+    private JButton loadButton;
+    private JButton addButton;
+    private JButton saveButton;
+    private JButton visualizeButton;
+    private JButton darkButton;
 
-    JTable table;
+    //JTable table;
 
-    JFileChooser fc;                // handles the file chooser dialog box
-    JScrollPane scrollPane;          // handles the scroll bars
+    private JFileChooser fc;                // handles the file chooser dialog box
+    private JScrollPane scrollPane;          // handles the scroll bars
+
+    // I have these up here so darkmode works
+    private String[] column = {"ID", "Last Name", "First Name", "Vaccine Type", "Vaccination Date", "Vaccine Location"};
+    private DefaultTableModel tableModel = new DefaultTableModel(column, 0);
+    private JTable table = new JTable(tableModel);
 
 
     MyFrame() {
@@ -113,7 +118,7 @@ public class MyFrame extends JFrame implements ActionListener {
          */
         // **** Add label ****
         // ***** the 'f' are for testing scroll *** Delete later ******
-        addLabel = new JLabel("<html>This is a placeholder for addfff fffffffffffffffffff ffffffffffffffffffffffffff fffffffffffffffffffffffffffffff f</html>");
+        addLabel = new JLabel("<html>This is a placeholder for add</html>");
         addLabel.setBounds(150, 0, 700, 150);
         addLabel.setFont(new Font("Arial Regular", Font.BOLD, 20));
         addLabel.setForeground(Color.black);
@@ -247,6 +252,7 @@ public class MyFrame extends JFrame implements ActionListener {
             aboutLabel.setVisible(true);
         }
         else if(e.getSource()==loadButton) {
+            tableModel.setRowCount(0);
             File file;
             int returnVal = fc.showOpenDialog(MyFrame.this);
 
@@ -263,27 +269,28 @@ public class MyFrame extends JFrame implements ActionListener {
             else {
                 file = null;
             }
-           FileIOtest openFileTest = new FileIOtest(file);
-
-           ArrayList<Patient> arr = new ArrayList<Patient>();
-           arr = openFileTest.getArray();
+            // pass file to FileIOTest which takes the file, separates, and stores into an ArrayList
+            FileIOtest openFileTest = new FileIOtest(file);
 
 
-           String[] column = {"ID", "Last Name", "First Name", "Vaccine Type", "Vaccination Date", "Vaccine Location"};
-           DefaultTableModel tableModel = new DefaultTableModel(column, 0);
+            ArrayList<Patient> arr = new ArrayList<Patient>();
+            arr = openFileTest.getArray();                  // take the array created from FileIOtest and store in local
 
+            // sets the columns the column names
+            /*
+            String[] column = {"ID", "Last Name", "First Name", "Vaccine Type", "Vaccination Date", "Vaccine Location"};
+            DefaultTableModel tableModel = new DefaultTableModel(column, 0);
 
-
-           table = new JTable(tableModel);
-
-           for (int i = 0; i < arr.size(); i++) {
-               Object[] rowdata = new Object[] {arr.get(i).getID(), arr.get(i).getLastName(), arr.get(i).getFirstName(),
+            table = new JTable(tableModel);
+*/
+            // adds the data to each row
+            for (int i = 0; i < arr.size(); i++) {
+                Object[] rowdata = new Object[] {arr.get(i).getID(), arr.get(i).getLastName(), arr.get(i).getFirstName(),
                         arr.get(i).getVaccineType(), arr.get(i).getVaccinationDate(),arr.get(i).getVaccineLocation()};
-               tableModel.addRow(rowdata);
-
+                tableModel.addRow(rowdata);
             }
-            scrollPane.setViewportView(table);
 
+            scrollPane.setViewportView(table);      // set the viewport to the table
 
         }
         else if(e.getSource()==addButton) {
@@ -291,6 +298,7 @@ public class MyFrame extends JFrame implements ActionListener {
             scrollPane.setViewportView(addLabel);
             scrollPane.setVisible(true);
             addLabel.setVisible(true);
+            table.setVisible(true);
 
         }
         else if(e.getSource()==saveButton) {
@@ -298,8 +306,6 @@ public class MyFrame extends JFrame implements ActionListener {
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 resetVisibility();
                 File file = fc.getSelectedFile();
-
-
 
                 saveLabel.setText("Saving: " + file.getName());
                 saveLabel.setVisible(true);
@@ -332,9 +338,9 @@ public class MyFrame extends JFrame implements ActionListener {
             addLabel.setForeground(Color.black);                        // set addLabel font to black
             saveLabel.setForeground(Color.black);                       // set saveLabel font to black
             visualLabel.setForeground(Color.black);                     // set visualLabel font to black
-            scrollPane.getViewport().setBackground(new Color(0xE8E8E8));
-            table.setForeground(Color.black);
-            table.setBackground(new Color(0xE8E8E8));
+            scrollPane.getViewport().setBackground(new Color(0xE8E8E8));    // scrollpane bg color
+            table.setForeground(Color.black);                           // table font color
+            table.setBackground(new Color(0xE8E8E8));               // table bg color
 
         }
 
@@ -374,6 +380,7 @@ public class MyFrame extends JFrame implements ActionListener {
         visualLabel.setVisible(false);
 
         scrollPane.setVisible(false);
+        //table.setVisible(false);
     }
 
 }
