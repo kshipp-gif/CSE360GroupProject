@@ -28,6 +28,7 @@ public class MyFrame extends JFrame implements ActionListener {
     private JButton saveButton;
     private JButton visualizeButton;
     private JButton darkButton;
+    private JButton displayButton;
 
     private JTextField addDateField;
     private JTextField IDField;
@@ -345,6 +346,17 @@ public class MyFrame extends JFrame implements ActionListener {
         darkButton.setOpaque(true);
         darkButton.addActionListener(this);
         buttonPanel.add(darkButton);
+
+        displayButton = new JButton("Display Table");
+        displayButton.setBounds(0,150,142,30);
+        displayButton.setFocusable(false);
+        displayButton.setFont(new Font("Arial Regular",Font.BOLD,16));
+        displayButton.setForeground(Color.white);
+        displayButton.setBackground(new Color(0x8E0C3A));
+        displayButton.setOpaque(true);
+        displayButton.setBorder(BorderFactory.createRaisedSoftBevelBorder());
+        displayButton.addActionListener(this);
+        buttonPanel.add(displayButton);
 //**********************************************************************************************************************
 //**********************************************************************************************************************
 //**********************************************************************************************************************
@@ -371,8 +383,6 @@ public class MyFrame extends JFrame implements ActionListener {
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 resetVisibility();
                 File file = fc.getSelectedFile(); // csv file that is opened
-                /*loadLabel.setText("Opening: " + file.getName());
-                loadLabel.setVisible(true);*/
 
                 String line = "";
                 String delim = ","; // delimiter to parse csv files
@@ -476,6 +486,10 @@ public class MyFrame extends JFrame implements ActionListener {
 
         if(e.getSource()==darkButton) {
             changeColorMode(); //changes to dark or light mode
+        }
+
+        if(e.getSource()==displayButton) {
+            //
         }
     }
 
