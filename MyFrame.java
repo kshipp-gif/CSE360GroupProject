@@ -7,11 +7,14 @@ import java.io.File;
 import java.util.Scanner;
 import java.io.*;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 public class MyFrame extends JFrame implements ActionListener {
 
     private int ID;
     private String lastName, firstName, vaccineType, vaccinationDate, vaccineLocation;
+    private boolean darkModeBool = false;
 
     private JPanel buttonPanel;
     private JPanel textPanel;
@@ -41,6 +44,7 @@ public class MyFrame extends JFrame implements ActionListener {
     private int rows;
     private Object[][] data;
 
+
     private JLabel addIDL;
     private JLabel addFirstNameL;
     private JLabel addLastNameL;
@@ -56,6 +60,19 @@ public class MyFrame extends JFrame implements ActionListener {
     private JTextArea addVaccineLocationTA;
 
     private JButton addSubmitButton;
+
+    private String[] columnNames = {
+            "ID",
+            "Last Name",
+            "First Name",
+            "Vaccine Type",
+            "Vaccination Date",
+            "Vaccine Location"  };
+
+    private DefaultTableModel tableModel = new DefaultTableModel(data, columnNames);
+    private JTable table = new JTable(tableModel);
+
+
 //**********************************************************************************************************************
 //**********************************************************************************************************************
 //**********************************************************************************************************************
@@ -71,8 +88,8 @@ public class MyFrame extends JFrame implements ActionListener {
         setDefaultLookAndFeelDecorated(true);
         this.setTitle("COVID Vaccines");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //exit out of app
-        this.setResizable(true); //prevent frame from being resized
-        this.setLayout(new BorderLayout());
+        this.setResizable(false); //prevent frame from being resized
+        this.setLayout(null);
         this.setSize(600, 600); //sets x and y dimensions of frame
 
         ImageIcon image = new ImageIcon("logo.png"); //create an image icon
@@ -99,6 +116,8 @@ public class MyFrame extends JFrame implements ActionListener {
         textPanel.setBackground(new Color(0xE8E8E8));
         textPanel.setBounds(142, 0, 500, 600);
         this.getContentPane().add(textPanel);
+
+
 //**********************************************************************************************************************
 //**********************************************************************************************************************
 //**********************************************************************************************************************
@@ -110,9 +129,11 @@ public class MyFrame extends JFrame implements ActionListener {
         //**** about section ****
         aboutLabel = new JLabel("<html>Team #13<br>Fonz Hamilton<br>James Evans" +
                 "<br>James Thomas<br>Karson Shipp</html>");
-        aboutLabel.setBounds(150,0,200,150);
+        aboutLabel.setBounds(50,0,200,150);
         aboutLabel.setFont(new Font("Arial Regular",Font.BOLD,20));
         aboutLabel.setForeground(Color.black);
+        //aboutLabel.setHorizontalAlignment(2);        // sets the text horizontal alignment. 2 = LEFT
+        aboutLabel.setVerticalAlignment(1);          // sets the text vertical alignment. 1 = TOP
         aboutLabel.setVisible(false);
         textPanel.add(aboutLabel);
 
@@ -131,110 +152,113 @@ public class MyFrame extends JFrame implements ActionListener {
          * TODO make Add functional
          */
         // **** Add label ****
-        /* Placeholder Code
+        //Placeholder Code
 
-        addLabel = new JLabel("<html>This is a placeholder for add</html>");
-        addLabel.setBounds(150, 0, 200, 150);
+        addLabel = new JLabel();
+        addLabel.setBounds(0, 0, 200, 150);
         addLabel.setFont(new Font("Arial Regular", Font.BOLD, 20));
         addLabel.setForeground(Color.black);
+        //addLabel.setHorizontalAlignment(2);        // sets the horizontal text alignment. 2 = LEFT
+        //addLabel.setVerticalAlignment(1);          // sets the vertical text alignment. 1 = TOP
         addLabel.setVisible(false);
         textPanel.add(addLabel);
 
-        Code edits made by James Thomas */
+        //Code edits made by James Thomas
 
         //Add ID
         addIDL = new JLabel("ID: ");
-        addIDL.setBounds(150, 5, 200, 25);
+        addIDL.setBounds(10, 5, 200, 25);
         addIDL.setFont(new Font("Arial Regular", Font.BOLD, 20));
         addIDL.setForeground(Color.black);
         addIDL.setVisible(false);
-        textPanel.add(addIDL);
+        addLabel.add(addIDL);
 
         addIDTA = new JTextArea("");
-        addIDTA.setBounds(350, 5, 200, 25);
+        addIDTA.setBounds(200, 5, 200, 25);
         addIDTA.setFont(new Font("Arial Regular", Font.BOLD, 20));
+
         addIDTA.setEditable(true);
         addIDTA.setVisible(false);
-        textPanel.add(addIDTA);
+        addLabel.add(addIDTA);
 
         //Add Last Name
         addLastNameL = new JLabel("Last Name: ");
-        addLastNameL.setBounds(150, 35, 200, 25);
+        addLastNameL.setBounds(10, 35, 200, 25);
         addLastNameL.setFont(new Font("Arial Regular", Font.BOLD, 20));
         addLastNameL.setForeground(Color.black);
         addLastNameL.setVisible(false);
-        textPanel.add(addLastNameL);
+        addLabel.add(addLastNameL);
 
         addLastNameTA = new JTextArea("");
-        addLastNameTA.setBounds(350, 35, 200, 25);
+        addLastNameTA.setBounds(200, 35, 200, 25);
         addLastNameTA.setFont(new Font("Arial Regular", Font.BOLD, 20));
         addLastNameTA.setEditable(true);
         addLastNameTA.setVisible(false);
-        textPanel.add(addLastNameTA);
+        addLabel.add(addLastNameTA);
 
         //Add First Name
         addFirstNameL = new JLabel("First Name: ");
-        addFirstNameL.setBounds(150, 65, 200, 25);
+        addFirstNameL.setBounds(10, 65, 200, 25);
         addFirstNameL.setFont(new Font("Arial Regular", Font.BOLD, 20));
         addFirstNameL.setForeground(Color.black);
         addFirstNameL.setVisible(false);
-        textPanel.add(addFirstNameL);
+        addLabel.add(addFirstNameL);
 
         addFirstNameTA = new JTextArea("");
-        addFirstNameTA.setBounds(350, 65, 200, 25);
+        addFirstNameTA.setBounds(200, 65, 200, 25);
         addFirstNameTA.setFont(new Font("Arial Regular", Font.BOLD, 20));
         addFirstNameTA.setEditable(true);
         addFirstNameTA.setVisible(false);
-        textPanel.add(addFirstNameTA);
+        addLabel.add(addFirstNameTA);
 
         //Add Vaccine Type
         addVaccineTypeL = new JLabel("Vaccine Type: ");
-        addVaccineTypeL.setBounds(150, 95, 200, 25);
+        addVaccineTypeL.setBounds(10, 95, 200, 25);
         addVaccineTypeL.setFont(new Font("Arial Regular", Font.BOLD, 20));
         addVaccineTypeL.setForeground(Color.black);
         addVaccineTypeL.setVisible(false);
-        textPanel.add(addVaccineTypeL);
+        addLabel.add(addVaccineTypeL);
 
         addVaccineTypeTA = new JTextArea("");
-        addVaccineTypeTA.setBounds(350, 95, 200, 25);
+        addVaccineTypeTA.setBounds(200, 95, 200, 25);
         addVaccineTypeTA.setFont(new Font("Arial Regular", Font.BOLD, 20));
         addVaccineTypeTA.setEditable(true);
         addVaccineTypeTA.setVisible(false);
-        textPanel.add(addVaccineTypeTA);
+        addLabel.add(addVaccineTypeTA);
 
         //Add Vaccination Date
         addVaccinationDateL = new JLabel("Vaccination Date: ");
-        addVaccinationDateL.setBounds(150, 125, 200, 25);
+        addVaccinationDateL.setBounds(10, 125, 200, 25);
         addVaccinationDateL.setFont(new Font("Arial Regular", Font.BOLD, 20));
         addVaccinationDateL.setForeground(Color.black);
         addVaccinationDateL.setVisible(false);
-        textPanel.add(addVaccinationDateL);
+        addLabel.add(addVaccinationDateL);
 
         addVaccinationDateTA = new JTextArea("");
-        addVaccinationDateTA.setBounds(350, 125, 200, 25);
+        addVaccinationDateTA.setBounds(200, 125, 200, 25);
         addVaccinationDateTA.setFont(new Font("Arial Regular", Font.BOLD, 20));
         addVaccinationDateTA.setEditable(true);
         addVaccinationDateTA.setVisible(false);
-        textPanel.add(addVaccinationDateTA);
+        addLabel.add(addVaccinationDateTA);
 
         //Add Vaccine Location
         addVaccineLocationL = new JLabel("Vaccine Location: ");
-        addVaccineLocationL.setBounds(150, 155, 200, 25);
+        addVaccineLocationL.setBounds(10, 155, 200, 25);
         addVaccineLocationL.setFont(new Font("Arial Regular", Font.BOLD, 20));
         addVaccineLocationL.setForeground(Color.black);
         addVaccineLocationL.setVisible(false);
-        textPanel.add(addVaccineLocationL);
+        addLabel.add(addVaccineLocationL);
 
         addVaccineLocationTA = new JTextArea("");
-        addVaccineLocationTA.setBounds(350, 155, 200, 25);
+        addVaccineLocationTA.setBounds(200, 155, 200, 25);
         addVaccineLocationTA.setFont(new Font("Arial Regular", Font.BOLD, 20));
         addVaccineLocationTA.setEditable(true);
         addVaccineLocationTA.setVisible(false);
-        textPanel.add(addVaccineLocationTA);
+        addLabel.add(addVaccineLocationTA);
 
         //Add submit button
         addSubmitButton = new JButton("Submit");
-        addSubmitButton.setBounds(250, 185, 75, 30);
+        addSubmitButton.setBounds(150, 185, 75, 30);
         addSubmitButton.setFocusable(false);
         addSubmitButton.setFont(new Font("Arial Regular",Font.BOLD,16));
         addSubmitButton.setForeground(Color.white);
@@ -243,7 +267,7 @@ public class MyFrame extends JFrame implements ActionListener {
         addSubmitButton.setBorder(BorderFactory.createRaisedSoftBevelBorder());
         addSubmitButton.addActionListener(this);
         addSubmitButton.setVisible(false);
-        textPanel.add(addSubmitButton);
+        addLabel.add(addSubmitButton);
 
         /**
          * TODO make Save functional
@@ -270,8 +294,12 @@ public class MyFrame extends JFrame implements ActionListener {
         scrollPane = new JScrollPane(textPanel);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setBounds(142,0,500,562);
-        this.getContentPane().add(scrollPane);
+        scrollPane.setBounds(142,0,452,562);
+        scrollPane.getViewport().setBackground(new Color(0xE8E8E8));
+        //scrollPane.setVisible(true);
+        //this.getContentPane().add(scrollPane);
+        add(scrollPane);
+        scrollPane.add(table);
 //**********************************************************************************************************************
 //**********************************************************************************************************************
 //**********************************************************************************************************************
@@ -357,10 +385,10 @@ public class MyFrame extends JFrame implements ActionListener {
         displayButton.setBorder(BorderFactory.createRaisedSoftBevelBorder());
         displayButton.addActionListener(this);
         buttonPanel.add(displayButton);
-//**********************************************************************************************************************
-//**********************************************************************************************************************
-//**********************************************************************************************************************
 
+// **********************************************************************************************************************
+//**********************************************************************************************************************
+//**********************************************************************************************************************
 
         // MAKE ENTIRE FRAME VISIBLE
         this.setVisible(true);
@@ -374,14 +402,19 @@ public class MyFrame extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==aboutButton) {
             resetVisibility();
+            scrollPane.setVisible(true);
+            scrollPane.setViewportView(aboutLabel);
             aboutLabel.setVisible(true);
-            database.printList();
+
         }
-        if(e.getSource()==loadButton) {
+        else if(e.getSource()==loadButton) {
             int returnVal = fc.showOpenDialog(MyFrame.this);
 
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 resetVisibility();
+                scrollPane.setVisible(true);
+                scrollPane.setViewportView(loadLabel);
+                tableModel.setRowCount(0);
                 File file = fc.getSelectedFile(); // csv file that is opened
 
                 String line = "";
@@ -399,7 +432,7 @@ public class MyFrame extends JFrame implements ActionListener {
                 } catch (FileNotFoundException fileNotFoundException) {
                     fileNotFoundException.printStackTrace();
                 }
-
+                database = new Iterator();
                 data = new Object[rows-1][6];
                 try {
                     BufferedReader br = new BufferedReader(new FileReader(file));
@@ -420,27 +453,34 @@ public class MyFrame extends JFrame implements ActionListener {
                 } catch (IOException ioe) {
                     ioe.printStackTrace();
                 }
-                String[] columnNames = {
-                        "ID",
-                        "Last Name",
-                        "First Name",
-                        "Vaccine Type",
-                        "Vaccination Date",
-                        "Vaccine Location"  };
+                table = new JTable(data, columnNames);
+                if (darkModeBool == false) {
+                    table.setForeground(Color.black);                   // table font color
+                    table.setBackground(new Color(0xE8E8E8));       // table bg color
+                    table.getTableHeader().setBackground(new Color(0xE8E8E8)); // change the top row bg color
+                    table.getTableHeader().setForeground(Color.black);   // change the top row font color
 
-                JTable table = new JTable(data, columnNames);
+                }
+                else {
+                    table.setForeground(Color.white);
+                    table.setBackground(Color.black);
+                    table.getTableHeader().setBackground(Color.black);
+                    table.getTableHeader().setForeground(Color.white);
+                }
+
                 table.setVisible(true);
-                table.setPreferredScrollableViewportSize(new Dimension(100,50));
-                table.setFillsViewportHeight(true);
+                setTableProperties(30,100);     // sets the row height, column width respectively
+
                 table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-                tableScrollPane = new JScrollPane(table);
-                tableScrollPane.setBounds(142, 0, 500, 600);
-                textPanel.add(tableScrollPane);
+                scrollPane.setViewportView(table);
             }
         }
 
-        if(e.getSource()==addButton) {
+        else if(e.getSource()==addButton) {
             resetVisibility();
+            addLabel.setVisible(true);
+            scrollPane.setVisible(true);
+            scrollPane.setViewportView(addLabel);
             addIDL.setVisible(true);
             addIDTA.setVisible(true);
             addLastNameL.setVisible(true);
@@ -456,10 +496,39 @@ public class MyFrame extends JFrame implements ActionListener {
             addSubmitButton.setVisible(true);
 
         }
-        if(e.getSource()==addSubmitButton) {
+        else if(e.getSource()==addSubmitButton) {
             //Add it to the list!
-            database.addNewPatient(Integer.parseInt(addIDTA.getText()), addLastNameTA.getText(), addFirstNameTA.getText(),
-                    addVaccineTypeTA.getText(), addVaccinationDateTA.getText(), addVaccineLocationTA.getText());
+            // if there is any error in textfield/not an integer in ID
+            if (addIDTA.getText().equals("") || addLastNameTA.getText().equals("") || addFirstNameTA.getText().equals("")
+                    || addVaccineTypeTA.getText().equals("") || addVaccinationDateTA.getText().equals("") ||
+                    addVaccineLocationTA.getText().equals("") || !isNumeric(addIDTA.getText())) {
+                warningBox("Please make sure ID is entirely numeric and no field is empty", "Error");
+            }
+
+            // else check for any duplicates
+            else {
+                Object[][] idCheck = database.getPatientInfo();
+                boolean match = false;
+                int rows = database.getRows();
+
+                for (int i = 0; i < rows; i++) {
+                    if (idCheck[i][0].equals(Integer.parseInt(addIDTA.getText()))) {
+                        match = true;
+                    }
+                }
+                //match if no duplicates
+                if (match == false) {
+                    database.addNewPatient(Integer.parseInt(addIDTA.getText()), addLastNameTA.getText(),
+                            addFirstNameTA.getText(), addVaccineTypeTA.getText(), addVaccinationDateTA.getText(),
+                            addVaccineLocationTA.getText());
+                }
+                else {
+                    warningBox("ID already in use. Not added to the list.", "Error");
+
+                }
+            }
+
+
             addIDTA.setText("");
             addLastNameTA.setText("");
             addFirstNameTA.setText("");
@@ -468,7 +537,7 @@ public class MyFrame extends JFrame implements ActionListener {
             addVaccineLocationTA.setText("");
         }
 
-        if(e.getSource()==saveButton) {
+        else if(e.getSource()==saveButton) {
             int returnVal = fc.showSaveDialog(MyFrame.this);
 
             if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -479,41 +548,144 @@ public class MyFrame extends JFrame implements ActionListener {
             }
         }
 
-        if(e.getSource()==visualizeButton) {
+        else if(e.getSource()==visualizeButton) {
             resetVisibility();
+            scrollPane.setVisible(true);
             visualLabel.setVisible(true);
         }
 
-        if(e.getSource()==darkButton) {
-            changeColorMode(); //changes to dark or light mode
+        else if(e.getSource()==displayButton) {
+            resetVisibility();
+            scrollPane.setVisible(true);
+            scrollPane.setViewportView(textPanel);
+
+            if (database.head != null) {
+                scrollPane.setVisible(true);
+                data = database.getPatientInfo();           // puts the list into data array
+                table = new JTable(data, columnNames);      // creates a new table
+
+                // dark mode shenanigans
+                if (darkModeBool == false) {
+                    table.setForeground(Color.black);                   // table font color
+                    table.setBackground(new Color(0xE8E8E8));       // table bg color
+                    table.getTableHeader().setBackground(new Color(0xE8E8E8)); // change the top row bg color
+                    table.getTableHeader().setForeground(Color.black);   // change the top row font color
+
+                }
+                else {
+                    table.setForeground(Color.white);
+                    table.setBackground(Color.black);
+                    table.getTableHeader().setBackground(Color.black);
+                    table.getTableHeader().setForeground(Color.white);
+                }
+
+                table.setVisible(true);
+                setTableProperties(30,100);     // sets the row height, column width respectively
+
+                table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+                scrollPane.setViewportView(table);
+            }
         }
 
-        if(e.getSource()==displayButton) {
-            //
+        else if(e.getSource()==darkButton) {
+            changeColorMode(); //changes to dark or light mode
         }
     }
 
     //functionality for dark mode
     private void changeColorMode() {
-        if (textPanel.getBackground().equals(Color.black)) {            // if dark gray
-            buttonPanel.setBackground(new Color(0xFAFAFA));         // set button panel to white-ish
-            textPanel.setBackground(new Color(0xE8E8E8));           // set data panel to white-ish-ish
-            aboutLabel.setForeground(Color.black);                      // set aboutLabel font to black
-            loadLabel.setForeground(Color.black);                       // set loadLabel font to black
-            addLabel.setForeground(Color.black);                        // set addLabel font to black
-            saveLabel.setForeground(Color.black);                       // set saveLabel font to black
-            visualLabel.setForeground(Color.black);                     // set visualLabel font to black
+        if (textPanel.getBackground().equals(Color.black)) {            // if already in darkmode
+            darkModeBool = false;
+            buttonPanel.setBackground(new Color(0xFAFAFA));         // set button panel
+            textPanel.setBackground(new Color(0xE8E8E8));           // set data panel
+            aboutLabel.setForeground(Color.black);                      // set aboutLabel font
+            loadLabel.setForeground(Color.black);                       // set loadLabel font
+            addLabel.setForeground(Color.black);                        // set addLabel font
+            saveLabel.setForeground(Color.black);                       // set saveLabel font
+            visualLabel.setForeground(Color.black);                     // set visualLabel font
+
+            scrollPane.getViewport().setBackground(new Color(0xE8E8E8));    // scrollpane bg color
+            scrollPane.getViewport().setForeground(Color.black);        // set the scroll pane font color
+            scrollPane.getHorizontalScrollBar().setBackground(new Color(0xE8E8E8));
+            scrollPane.getVerticalScrollBar().setBackground(new Color(0xE8E8E8));
+
+            table.setForeground(Color.black);                           // table font color
+            table.setBackground(new Color(0xE8E8E8));               // table bg color
+            table.getTableHeader().setBackground(new Color(0xE8E8E8));          // change the top row bg color
+            table.getTableHeader().setForeground(Color.black);          // change the top row font color
+
+            addIDL.setForeground(Color.black);                          // change the font of id label
+            addIDTA.setBackground(Color.white);                         // change the bg of text area
+            addIDTA.setForeground(Color.black);                         // change the font of text area
+            addLastNameL.setForeground(Color.black);                    // change the font of lastName
+            addLastNameTA.setBackground(Color.white);                   // change the bg of text area
+            addLastNameTA.setForeground(Color.black);                   // change the font of text area
+            addFirstNameL.setForeground(Color.black);                   // change the font of firstName
+            addFirstNameTA.setBackground(Color.white);                  // change the bg of text area
+            addFirstNameTA.setForeground(Color.black);                  // change the font of text area
+            addVaccineTypeL.setForeground(Color.black);                 // change the font of vaccineType
+            addVaccineTypeTA.setBackground(Color.white);                // change the bg of text area
+            addVaccineTypeTA.setForeground(Color.black);                // change the font of text area
+            addVaccinationDateL.setForeground(Color.black);             // change the font of vaccinationDate
+            addVaccinationDateTA.setBackground(Color.white);            // change the bg of text area
+            addVaccinationDateTA.setForeground(Color.black);            // change the font of text area
+            addVaccineLocationL.setForeground(Color.black);             // change the font of vaccinationLocation
+            addVaccineLocationTA.setBackground(Color.white);            // change the bg of text area
+            addVaccineLocationTA.setForeground(Color.black);            // change the font of text area
+
+            addIDTA.setCaretColor(Color.black);
+            addLastNameTA.setCaretColor(Color.black);
+            addFirstNameTA.setCaretColor(Color.black);
+            addVaccineTypeTA.setCaretColor(Color.black);
+            addVaccinationDateTA.setCaretColor(Color.black);
+            addVaccineLocationTA.setCaretColor(Color.black);
         }
 
-        else {
-            buttonPanel.setBackground(new Color(0x484848));         // else set button panel to light grey
-            textPanel.setBackground(Color.black);                       //  set data panel to dark grey
-            aboutLabel.setForeground(Color.white);                      // set aboutLabel font to white
-            loadLabel.setForeground(Color.white);                       // set the loadLabel font to white
-            addLabel.setForeground(Color.white);                        // set the addLabel font to white
-            saveLabel.setForeground(Color.white);                       // set visual label font to white
-            visualLabel.setForeground(Color.white);                     // set visualLabel font to white
+        else {                                                          // else change everything to dark mode
+            darkModeBool = true;
+            buttonPanel.setBackground(new Color(0x484848));         // else set button panel
+            textPanel.setBackground(Color.black);                       //  set data panel
+            aboutLabel.setForeground(Color.white);                      // set aboutLabel font
+            loadLabel.setForeground(Color.white);                       // set the loadLabel font
+            addLabel.setForeground(Color.white);                        // set the addLabel font
+            saveLabel.setForeground(Color.white);                       // set visual label font
+            visualLabel.setForeground(Color.white);                     // set visualLabel font
 
+            scrollPane.getViewport().setBackground(Color.black);
+            scrollPane.getViewport().setForeground(Color.white);
+            scrollPane.getHorizontalScrollBar().setBackground(new Color(0x484848)); // change the scroll bar bg
+            scrollPane.getVerticalScrollBar().setBackground(new Color(0x484848));
+
+            table.setForeground(Color.white);                           // change the table font color
+            table.setBackground(Color.black);                           // change the table bg color
+            table.getTableHeader().setBackground(Color.black);          // change the top row bg color
+            table.getTableHeader().setForeground(Color.white);          // change the top row font color
+
+            addIDL.setForeground(Color.white);                          // change the font of id to white
+            addIDTA.setBackground(new Color(0x484848));             // change the bg of text area
+            addIDTA.setForeground(Color.white);                         // change th font of text area
+            addLastNameL.setForeground(Color.white);                    // change the font of lastName
+            addLastNameTA.setBackground(new Color(0x484848));       // change the bg of text area
+            addLastNameTA.setForeground(Color.white);                   // change the font of text area
+            addFirstNameL.setForeground(Color.white);                   // change the font of firstName
+            addFirstNameTA.setBackground(new Color(0x484848));      // change the bg of text area
+            addFirstNameTA.setForeground(Color.white);                  // change the font of text area
+            addVaccineTypeL.setForeground(Color.white);                 // change the font of vaccineType
+            addVaccineTypeTA.setBackground(new Color(0x484848));    // change the bg of text area
+            addVaccineTypeTA.setForeground(Color.white);                // change the font of text area
+            addVaccinationDateL.setForeground(Color.white);             // change the font of vaccinationDate
+            addVaccinationDateTA.setBackground(new Color(0x484848));    // change the bg of text area
+            addVaccinationDateTA.setForeground(Color.white);            // change the font of text area
+            addVaccineLocationL.setForeground(Color.white);             // change the font of vaccineLocation
+            addVaccineLocationTA.setBackground(new Color(0x484848));    // change the bg of text area
+            addVaccineLocationTA.setForeground(Color.white);                // change the font of text area
+
+            addIDTA.setCaretColor(Color.white);
+            addLastNameTA.setCaretColor(Color.white);
+            addFirstNameTA.setCaretColor(Color.white);
+            addVaccineTypeTA.setCaretColor(Color.white);
+            addVaccinationDateTA.setCaretColor(Color.white);
+            addVaccineLocationTA.setCaretColor(Color.white);
         }
         // changes the text on the button itself
         if(darkButton.getText().equals("Dark Mode"))
@@ -522,38 +694,60 @@ public class MyFrame extends JFrame implements ActionListener {
             darkButton.setText("Dark Mode");
 
         repaint();      // repaints the frame to update colors
-
     }
 
     private void resetVisibility() {
         aboutLabel.setVisible(false);
 
-        /* Load Button Stuff */
         loadLabel.setVisible(false);
-        for(int i = 0; i < textPanel.getComponentCount(); i ++) {
-            if(textPanel.getComponent(i) == tableScrollPane) {
-                tableScrollPane.setVisible(false);
-            }
-        }
 
-        /* Add Text Areas and Button */
-        addIDL.setVisible(false);
-        addIDTA.setVisible(false);
-        addLastNameL.setVisible(false);
-        addLastNameTA.setVisible(false);
-        addFirstNameL.setVisible(false);
-        addFirstNameTA.setVisible(false);
-        addVaccineTypeL.setVisible(false);
-        addVaccineTypeTA.setVisible(false);
-        addVaccinationDateL.setVisible(false);
-        addVaccinationDateTA.setVisible(false);
-        addVaccineLocationL.setVisible(false);
-        addVaccineLocationTA.setVisible(false);
-        addSubmitButton.setVisible(false);
-
-
+        scrollPane.setVisible(false);
+        addLabel.setVisible(false);
         saveLabel.setVisible(false);
         visualLabel.setVisible(false);
     }
 
+    /**
+     * method to change row height and column width
+     * @param rowHeight - changes the row height
+     * @param columnWidth - changes the column width
+     */
+    private void setTableProperties(int rowHeight, int columnWidth) {
+        table.setRowHeight(rowHeight);
+        TableColumnModel columnModel = table.getColumnModel();
+        columnModel.getColumn(0).setPreferredWidth(columnWidth);
+        columnModel.getColumn(1).setPreferredWidth(columnWidth);
+        columnModel.getColumn(2).setPreferredWidth(columnWidth);
+        columnModel.getColumn(3).setPreferredWidth(columnWidth);
+        columnModel.getColumn(4).setPreferredWidth(columnWidth);
+        columnModel.getColumn(5).setPreferredWidth(columnWidth);
+
+    }
+
+    /**
+     * Method to check if a string is numeric
+     * @param str
+     * @return
+     */
+    public static boolean isNumeric(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch(NumberFormatException e){
+            return false;
+        }
+    }
+
+    /**
+     * Method to throw a pop-up box
+     * @param infoMessage
+     * @param titleBar
+     */
+    public static void warningBox(String infoMessage, String titleBar)
+    {
+        JOptionPane.showMessageDialog(null, infoMessage, "InfoBox: " + titleBar,
+                JOptionPane.INFORMATION_MESSAGE);
+    }
+
 }
+
