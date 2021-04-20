@@ -1,4 +1,8 @@
 package group_project;
+
+import java.io.FileWriter;
+import java.io.IOException;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -545,6 +549,52 @@ public class MyFrame extends JFrame implements ActionListener {
                 File file = fc.getSelectedFile();
                 saveLabel.setText("Saving: " + file.getName());
                 saveLabel.setVisible(true);
+                
+                Patient ptr = database.head;
+                //Check for IO exception
+                try {
+                	//Create new file writer (and new file)
+                	FileWriter writer = new FileWriter(file + ".csv");
+                	System.out.println(file + ".csv");
+                	
+                	//Writing the Headers
+                	writer.append("ID");
+                	writer.append(',');
+                	writer.append("Last Name");
+                	writer.append(',');
+                	writer.append("First Name");
+                	writer.append(',');
+                	writer.append("Vaccine Type");
+                	writer.append(',');
+                	writer.append("Vaccination Date");
+                	writer.append(',');
+                	writer.append("Vaccine Location");
+                	writer.append('\n');
+                	
+                	while(ptr != null) {
+                		//Read in the patients and parse their data
+                    	writer.append("" + ptr.getID());
+                    	writer.append(',');
+                    	writer.append(ptr.getLastName());
+                    	writer.append(',');
+                    	writer.append(ptr.getFirstName());
+                    	writer.append(',');
+                    	writer.append(ptr.getVaccineType());
+                    	writer.append(',');
+                    	writer.append(ptr.getVaccinationDate());
+                    	writer.append(',');
+                    	writer.append(ptr.getVaccineLocation());
+                    	writer.append('\n');     
+                    	
+                    	ptr = ptr.getNextPatient();
+                	}
+                	
+                	writer.close();
+                	
+                }catch(IOException f) {
+                	System.out.println("oof.");
+                }
+                
             }
         }
 
@@ -750,4 +800,3 @@ public class MyFrame extends JFrame implements ActionListener {
     }
 
 }
-
